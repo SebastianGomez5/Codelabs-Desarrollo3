@@ -1,0 +1,19 @@
+server:  
+  port: 8082  
+  
+spring:  
+  application:  
+    name: pedido-service  
+  
+producto-service:  
+  url: http://localhost:8081  
+  
+eureka:  
+  client:  
+    service-url:  
+      defaultZone: http://localhost:8761/eureka/  
+    lease-renewal-interval-in-seconds: 10  
+    lease-expiration-duration-in-seconds: 30  
+  
+  instance:  
+    prefer-ip-address: true

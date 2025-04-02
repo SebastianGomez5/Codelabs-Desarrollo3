@@ -24,7 +24,7 @@ public class ProductoController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));  
     }  
   
-    @GetMapping("/productos")  
+    @GetMapping
     public List<Producto> listarProductos() {  
         return List.of(  
                 new Producto(1L, "Laptop", 1500.0),  
