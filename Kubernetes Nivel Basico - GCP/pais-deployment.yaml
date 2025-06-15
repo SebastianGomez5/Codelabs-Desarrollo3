@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pais-service
+  annotations:
+    cloud.google.com/backend-config: '{"default": "pais-backendconfig"}'
+spec:
+  type: ClusterIP
+  selector:
+    app: pais-service
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pais-service
+spec:
+  selector:
+    matchLabels:
+      app: pais-service
+  template:
+    metadata:
+      labels:
+        app: pais-service
+    spec:
+      containers:
+        - name: pais
+          image: alvarosalazar/pais-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_URL
+              value: jdbc:postgresql://db1:5432/curso_springboot
+            - name: DB_USERNAME
+              value: devdb
+            - name: DB_PASSWORD
+              value: a1b2c3d4
+            - name: JPA_DDL
+              value: create-drop
+            - name: SERVER_PORT
+              value: "8080"
+          readinessProbe:
+            httpGet:
+              path: /pais-actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"

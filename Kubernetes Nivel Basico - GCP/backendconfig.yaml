@@ -1,0 +1,29 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: pais-backendconfig
+spec:
+  healthCheck:
+    checkIntervalSec: 10
+    timeoutSec: 5
+    healthyThreshold: 1
+    unhealthyThreshold: 3
+    type: HTTP
+    requestPath: /pais-actuator/health
+    port: 8080
+
+---
+
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: auth-backendconfig
+spec:
+  healthCheck:
+    checkIntervalSec: 10
+    timeoutSec: 5
+    healthyThreshold: 1
+    unhealthyThreshold: 3
+    type: HTTP
+    requestPath: /auth-actuator/health
+    port: 8080
